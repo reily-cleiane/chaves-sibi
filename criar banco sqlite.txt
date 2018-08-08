@@ -1,0 +1,83 @@
+create table alunos(
+matricula varchar(20) NOT NULL PRIMARY KEY,
+nome vachar(50) not null);
+
+create table chaves(
+numchave integer primary key autoincrement);
+
+
+create table emprestimos(
+id integer primary key autoincrement,
+emp_aluno varchar(20),
+emp_chave integer,
+dataemp varchar(16) NOT NULL DEFAULT (datetime('now', '-3 hour')),
+datadev varchar(16),
+foreign key(emp_aluno) references alunos (matricula),
+foreign key(emp_chave) references chaves (numchave)
+);
+
+drop table ;
+
+Insert into emprestimos (emp_aluno, emp_chave, dataemp, datadev) values
+
+
+UPDATE emprestimos SET datadev=(datetime('now','-3 hour')) WHERE emp_chave = ? AND datadev IS NULL
+
+
+
+select alunos.matricula, alunos.nome, emprestimos.emp_chave, emprestimos.dataemp from alunos INNER JOIN emprestimos on (alunos.matricula = emp_aluno) WHERE datadev IS NULL ORDER BY dataemp;
+
+
+select matricula from alunos WHERE NOT EXISTS (select emp_aluno from emprestimos where alunos.matricula = emp_aluno);
+
+delete from alunos WHERE NOT EXISTS (select emp_aluno from emprestimos where alunos.matricula = emp_aluno);
+
+
+
+insert into chaves values(null);
+
+
+insert into alunos values ('biblioteca01', 'Operação da biblioteca com a chave 01');
+
+
+select* from emprestimos where dataemp < Datetime ('2017-11-12 00:00:00');
+
+delete from emprestimos where dataemp < Datetime ('2017-07-12 00:00:00');
+delete from emprestimos where dataemp < Datetime ('2016-07-01');
+
+OBS NESSE DELETE DE CIMA DELETA TAMBEM A DATA ESPECIFICADA, NÃO SÓ AS MENORES QUE ELA
+
+
+select id from emprestimos where datadev IS NULL;
+
+
+insert into emprestimos (emp_aluno, emp_chave, dataemp) values ('1856529', 9, (datetime('now', '-1 month')));
+
+
+select alunos.matricula, alunos.nome, emprestimos.emp_chave, emprestimos.dataemp, emprestimos.datadev from alunos
+INNER JOIN emprestimos on (alunos.matricula = emp_aluno)
+WHERE dataemp <= (datetime('now', '-3 hour')) AND dataemp >= (strftime('%Y', 'now') || '-' || strftime('%m', 'now')) ORDER BY dataemp;
+
+
+select alunos.matricula, alunos.nome, emprestimos.emp_chave, emprestimos.dataemp, emprestimos.datadev from alunos
+                 INNER JOIN emprestimos on (alunos.matricula = emp_aluno)
+                 WHERE dataemp >= (strftime('%Y', 'now') || '-' || '09')
+                 AND dataemp < (strftime('%Y', 'now') || '-' || '10') ORDER BY dataemp;
+
+
+
+select alunos.matricula, alunos.nome, emprestimos.emp_chave, emprestimos.dataemp, emprestimos.datadev from alunos
+                INNER JOIN emprestimos on (alunos.matricula = emp_aluno)
+                WHERE dataemp >= (strftime('%Y-%m', 'now', '-1 month'))
+                AND dataemp < date('now', 'start of month') ORDER BY dataemp;
+
+
+select alunos.matricula, alunos.nome, emprestimos.emp_chave, emprestimos.dataemp, emprestimos.datadev from alunos
+                INNER JOIN emprestimos on (alunos.matricula = emp_aluno)
+                WHERE dataemp >= (strftime('%Y-%m', 'now', '-1 month'))
+                AND dataemp < date('now', 'start of month') ORDER BY dataemp;
+
+
+
+O caminho relativo precisa ser depois da pasta com o nome do projeto
+"jdbc:sqlite:lib\\bancodedados\\BDchaves"

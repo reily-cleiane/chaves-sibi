@@ -1,0 +1,6 @@
+Relatório de últimas devoluções
+Inserir chave, apagar chave
+relatório de alunos sem empréstimo durante um período com opção para deletar
+Alterar registro de aluno
+Deletar histórico de empréstimo
+Fazer datas nos relatórios aparecerem no padrão brasileiro
