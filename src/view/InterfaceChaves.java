@@ -6,8 +6,9 @@ import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.KeyEvent;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+//Incompatáivel com java 7
+//import java.time.LocalDateTime;
+//import java.time.format.DateTimeFormatter;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import controller.*;
@@ -18,6 +19,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.TimeZone;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
@@ -27,11 +31,21 @@ public class InterfaceChaves extends javax.swing.JFrame {
 
     public InterfaceChaves() {
         initComponents();
-        LocalDateTime dia = LocalDateTime.now();
-        i3.setText(Integer.toString(dia.getYear()));
-        f3.setText(Integer.toString(dia.getYear()));
-        jLabel16.setText("Anteriores a "+ Integer.toString(dia.getYear()-1));
-        jLabel17.setText("Sem empréstimos em "+ Integer.toString(dia.getYear()-1) + " e "+ Integer.toString(dia.getYear()));
+        Calendar cal = GregorianCalendar.getInstance();
+        TimeZone tz = TimeZone.getTimeZone("America/Recife");
+	TimeZone.setDefault(tz);
+        cal.setTimeZone(tz);
+        i3.setText(Integer.toString(cal.get(Calendar.YEAR)));
+        f3.setText(Integer.toString(cal.get(Calendar.YEAR)));
+        jLabel16.setText("Anteriores a "+ Integer.toString(cal.get(Calendar.YEAR)-1));
+        jLabel17.setText("Sem empréstimos em "+ Integer.toString(cal.get(Calendar.YEAR)-1) + " e "+ Integer.toString(cal.get(Calendar.YEAR)));
+        
+        //Incompatível com java 7
+        //LocalDateTime dia = LocalDateTime.now();
+        //i3.setText(Integer.toString(dia.getYear()));
+        //f3.setText(Integer.toString(dia.getYear()));          
+        //jLabel16.setText("Anteriores a "+ Integer.toString(dia.getYear()-1));
+        //jLabel17.setText("Sem empréstimos em "+ Integer.toString(dia.getYear()-1) + " e "+ Integer.toString(dia.getYear()));
 
     }
 
@@ -604,7 +618,7 @@ public class InterfaceChaves extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel13)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(f3, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(f3))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                         .addComponent(i1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -614,7 +628,7 @@ public class InterfaceChaves extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel12)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(i3, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(i3)))
                 .addGap(0, 20, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -923,7 +937,7 @@ public class InterfaceChaves extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addGap(29, 29, 29)
                 .addComponent(cabecalho, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(23, 23, 23))
         );
@@ -1552,10 +1566,28 @@ public class InterfaceChaves extends javax.swing.JFrame {
 
             if(!infoEmprestimo.isEmpty()){
                 nome.setForeground(new Color(90,100,150));
-                nome.setText("Nome: "+infoEmprestimo.get(1));               
-                LocalDateTime dia = LocalDateTime.now();
-                DateTimeFormatter formatador = DateTimeFormatter.ofPattern("dd/MM/yyyy - HH:mm");
-                data.setText("Data de empréstimo: " + dia.format(formatador));
+                nome.setText("Nome: "+infoEmprestimo.get(1));  
+                Calendar cal = GregorianCalendar.getInstance();
+                
+                TimeZone tz = TimeZone.getTimeZone("America/Recife");
+		TimeZone.setDefault(tz);
+                cal.setTimeZone(tz);
+                
+                String dataatual = dataMenor10(cal.get(Calendar.DATE)) +
+                        "/"+
+                        dataMenor10(cal.get(Calendar.MONTH)+1)+
+                        "/"+
+                        Integer.toString(cal.get(Calendar.YEAR))+
+                        " - "+
+                        dataMenor10(cal.get(Calendar.HOUR_OF_DAY))+
+                        ":"+
+                        dataMenor10(cal.get(Calendar.MINUTE));
+                
+                data.setText("Data de empréstimo: " + dataatual);
+                //Incompatível com java 7
+                //LocalDateTime dia = LocalDateTime.now();
+                //DateTimeFormatter formatador = DateTimeFormatter.ofPattern("dd/MM/yyyy - HH:mm");
+                //data.setText("Data de empréstimo: " + dia.format(formatador));
                 btemprestar.setEnabled(true);
                         
             }else{
@@ -1576,6 +1608,15 @@ public class InterfaceChaves extends javax.swing.JFrame {
             btemprestar.setEnabled(false);
         }
                   
+    }
+    
+    private String dataMenor10(int data){
+        //String addZero; = (data < 10) ?  "0"+Integer.toString(data): Integer.toString(data);
+        String addZero = Integer.toString(data);
+        if(data < 10){
+            addZero = "0"+Integer.toString(data);           
+        }
+        return addZero;
     }
 
     private void preencherLista() {        
@@ -1617,6 +1658,7 @@ public class InterfaceChaves extends javax.swing.JFrame {
         
         String di = i3.getText()+"-"+i2.getText()+"-"+i1.getText();
         String df = f3.getText()+f2.getText()+f1.getText();
+        String dfLabel = f3.getText()+"-"+f2.getText()+"-"+f1.getText();
         
         int f = Integer.parseInt(df);
         f = f+1;
@@ -1628,7 +1670,8 @@ public class InterfaceChaves extends javax.swing.JFrame {
             i1.setText("");i2.setText("");f1.setText("");f2.setText("");
             RelatorioMes rel = new RelatorioMes();
             rel.setVisible(true);
-            rel.relatorioPeriodo(di, df);
+            System.out.println("vai ficar estranho? " + di +" "+df);
+            rel.relatorioPeriodo(di, df, dfLabel);
             
         } 
         

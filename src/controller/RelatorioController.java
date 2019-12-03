@@ -3,9 +3,12 @@ import view.RelatorioMes;
 import view.RelatorioEmpAtivo;
 import java.sql.SQLException;
 import java.text.ParseException;
-import java.time.LocalDate;
+//Java 8. Não é compatível com 7
+//import java.time.LocalDate;
 import persistencia.RelatorioDao;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 /**
  * @author cleiane
@@ -32,8 +35,12 @@ public class RelatorioController {
     
     public ArrayList<RelatorioMes> relatorioMesNumero(int nummes)throws SQLException, ParseException {
         
-        LocalDate dataano = LocalDate.now();
-        String ano = Integer.toString(dataano.getYear()); 
+        // JAVA 8, não é compatível em java 7
+        //LocalDate dataano = LocalDate.now();
+        //String ano = Integer.toString(dataano.getYear()); 
+        
+        Calendar cal = GregorianCalendar.getInstance();
+        String ano = Integer.toString(cal.get(Calendar.YEAR));
         
         String nm = numMes(nummes);
         String fm = numMes(nummes+1);

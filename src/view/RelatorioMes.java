@@ -3,11 +3,18 @@ package view;
 
 import controller.RelatorioController;
 import java.sql.SQLException;
+import java.text.DateFormat;
 import java.text.ParseException;
-import java.time.LocalDate;
-import java.time.format.TextStyle;
+import java.text.SimpleDateFormat;
+//Incompatível com java 7
+//import java.time.LocalDate;
+//import java.time.format.TextStyle;
 import java.util.ArrayList;
+import java.util.Calendar;
+//import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Locale;
+import java.util.TimeZone;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
@@ -200,19 +207,38 @@ public class RelatorioMes extends javax.swing.JFrame {
         } catch (SQLException | ParseException ex) {
             Logger.getLogger(RelatorioMes.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        Calendar cal = GregorianCalendar.getInstance();
+        TimeZone tz = TimeZone.getTimeZone("America/Recife");
+	TimeZone.setDefault(tz);
+        cal.setTimeZone(tz);
+        
+        DateFormat dtf = new SimpleDateFormat ("MMMMM", new Locale ("pt", "BR"));
+        String d = dtf.format (1);
                 
-        LocalDate dia = LocalDate.now();
-        String d = dia.getMonth().getDisplayName(TextStyle.FULL, Locale.getDefault());
+        //Incompatível com java 7
+        //LocalDate dia = LocalDate.now();
+        //String d = dia.getMonth().getDisplayName(TextStyle.FULL, Locale.getDefault());
         jLabel1.setText("Relatório - "+ d);
 
     }
     
     public void relatorioMesAnterior(){
-      
-        System.out.println("ENTROU EM MÊS anterior");
-        LocalDate dia = LocalDate.now();       
-        dia = dia.plusMonths(-1);
-        String d = dia.getMonth().getDisplayName(TextStyle.FULL, Locale.getDefault());
+        
+        Calendar cal = GregorianCalendar.getInstance();
+        TimeZone tz = TimeZone.getTimeZone("America/Recife");
+	TimeZone.setDefault(tz);
+        cal.setTimeZone(tz);
+        
+        cal.add(Calendar.MONTH, -1);
+        
+        DateFormat dtf = new SimpleDateFormat ("MMMMM", new Locale ("pt", "BR"));
+        String d = dtf.format(cal.getTime());
+               
+        //Incompatível com java 7
+        //LocalDate dia = LocalDate.now();       
+        //dia = dia.plusMonths(-1);
+        //String d = dia.getMonth().getDisplayName(TextStyle.FULL, Locale.getDefault());
         jLabel1.setText("Relatório - "+ d);
         
         try{
@@ -251,10 +277,12 @@ public class RelatorioMes extends javax.swing.JFrame {
         
     }
       
-    public void relatorioPeriodo(String di, String df){
+    public void relatorioPeriodo(String di, String df, String dfLabel){
 
         String pi = di.substring(8,10)+"-"+di.substring(5,8)+di.substring(0,4);
-        String pf = df.substring(8,10)+"-"+df.substring(5,8)+df.substring(0,4);
+        String pf = dfLabel.substring(8,10)+"-"+dfLabel.substring(5,8)+dfLabel.substring(0,4);
+        pi = pi.replaceAll("-", "/");
+        pf = pf.replaceAll("-", "/");
         jLabel1.setText("Relatório - Período: "+ pi + " à " + pf);
         
         try{
