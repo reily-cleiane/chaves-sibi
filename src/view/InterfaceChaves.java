@@ -1048,7 +1048,10 @@ public class InterfaceChaves extends javax.swing.JFrame {
     }//GEN-LAST:event_btdevolverActionPerformed
 
     private void listadevolValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listadevolValueChanged
-        btdevolver.requestFocus();
+        if(listadevol.getSelectedValue()!=null){
+            btdevolver.requestFocus(); 
+        }
+
     }//GEN-LAST:event_listadevolValueChanged
 
     private void btemprestarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btemprestarActionPerformed
@@ -1647,6 +1650,7 @@ public class InterfaceChaves extends javax.swing.JFrame {
             preencherLista();
             limpar();
             matricula.requestFocus();
+            System.out.println("entrou em devolver e deu request focus na matricula");
         } catch(SQLException e){
             Logger.getLogger("Erro Interface "+ e.getLocalizedMessage());
             
