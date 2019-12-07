@@ -1400,7 +1400,7 @@ public class InterfaceChaves extends javax.swing.JFrame {
             
         } catch (SQLException ex) {
             Logger.getLogger(InterfaceChaves.class.getName()).log(Level.SEVERE, null, ex);
-            System.out.println("Erro GenericDao userListByName"+ ex.getLocalizedMessage());
+            //System.out.println("Erro GenericDao userListByName"+ ex.getLocalizedMessage());
             btalterar_usuario.setEnabled(false);
         } catch (ParseException ex) {
             Logger.getLogger(InterfaceChaves.class.getName()).log(Level.SEVERE, null, ex);
@@ -1514,7 +1514,6 @@ public class InterfaceChaves extends javax.swing.JFrame {
             limpar();
             copy(aux);
             matricula.setText(aux);
-            System.out.println(matricula.getText());
             chave.requestFocus();
 
         } catch(SQLException e){
@@ -1551,7 +1550,7 @@ public class InterfaceChaves extends javax.swing.JFrame {
             matricula.requestFocus();
         
         } catch (ParseException | SQLException e) { 
-            System.out.println("ERRO: Interface" + e.getLocalizedMessage());
+            //System.out.println("ERRO: Interface" + e.getLocalizedMessage());
             String aux = matricula.getText();
             limpar();
             jTabbedPane1.setSelectedIndex(1);
@@ -1603,7 +1602,7 @@ public class InterfaceChaves extends javax.swing.JFrame {
             }
                     
         } catch(SQLException e){
-            System.out.println("ERRO: Interface" + e.getLocalizedMessage());
+            //System.out.println("ERRO: Interface" + e.getLocalizedMessage());
             nome.setText("Usuário não cadastrado");
             nome.setForeground(new Color(153,0,0));
             cadmatricula.setText(matricula.getText());
@@ -1650,7 +1649,6 @@ public class InterfaceChaves extends javax.swing.JFrame {
             preencherLista();
             limpar();
             matricula.requestFocus();
-            System.out.println("entrou em devolver e deu request focus na matricula");
         } catch(SQLException e){
             Logger.getLogger("Erro Interface "+ e.getLocalizedMessage());
             
@@ -1674,7 +1672,6 @@ public class InterfaceChaves extends javax.swing.JFrame {
             i1.setText("");i2.setText("");f1.setText("");f2.setText("");
             RelatorioMes rel = new RelatorioMes();
             rel.setVisible(true);
-            System.out.println("vai ficar estranho? " + di +" "+df);
             rel.relatorioPeriodo(di, df, dfLabel);
             
         } 
