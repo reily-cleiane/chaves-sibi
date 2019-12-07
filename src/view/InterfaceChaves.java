@@ -1400,7 +1400,6 @@ public class InterfaceChaves extends javax.swing.JFrame {
             
         } catch (SQLException ex) {
             Logger.getLogger(InterfaceChaves.class.getName()).log(Level.SEVERE, null, ex);
-            //System.out.println("Erro GenericDao userListByName"+ ex.getLocalizedMessage());
             btalterar_usuario.setEnabled(false);
         } catch (ParseException ex) {
             Logger.getLogger(InterfaceChaves.class.getName()).log(Level.SEVERE, null, ex);
